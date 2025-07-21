@@ -1,6 +1,6 @@
 # Arch Linux documentation
 
-Documentation for my Arch linux system based on Omarchy.
+Documentation for my Arch linux system based on [Omarchy](https://manuals.omamix.org/2/the-omarchy-manual).
 
 ## Dotfiles
 
