@@ -1,0 +1,33 @@
+#!/bin/bash
+
+VPN_CONNECT="mullvad connect"
+VPN_DISCONNECT="mullvad disconnect"
+VPN_GET_STATUS="mullvad status"
+VPN_STATUS_INFO=$(mullvad status --json)
+VPN_STATUS=$(echo $VPN_STATUS_INFO | jq -r ".state")
+CONNECTED="connected"
+
+vpn_toggle_connection() {
+  if [ "$VPN_STATUS" = "$CONNECTED" ]; then
+    $VPN_DISCONNECT
+  else
+    $VPN_CONNECT
+  fi
+}
+
+vpn_status() {
+  if [ "$VPN_STATUS" = "$CONNECTED" ]; then
+    VPN_HOSTNAME=$(echo $VPN_STATUS_INFO | jq -r ".details.location.hostname")
+    VPN_CITY=$(echo $VPN_STATUS_INFO | jq -r ".details.location.city")
+    VPN_COUNTRY=$(echo $VPN_STATUS_INFO | jq -r ".details.location.country")
+    echo "{\"alt\": \"connected\", \"class\": \"connected\", \"tooltip\": \"Mullvad\r$VPN_HOSTNAME\r$VPN_CITY, $VPN_COUNTRY\"}"
+  else
+    echo "{\"alt\": \"disconnected\", \"class\": \"disconnected\", \"tooltip\": \"Connect to Mullvad\"}"
+  fi
+}
+
+if [ "$1" = "toggle_connection" ]; then
+  vpn_toggle_connection
+else
+  echo "$(vpn_status)"
+fi
