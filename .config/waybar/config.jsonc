@@ -1,4 +1,5 @@
 {
+  "reload_style_on_change": true,
   "layer": "top",
   "position": "top",
   "spacing": 0,
@@ -10,12 +11,12 @@
     "clock"
   ],
   "modules-right": [
-    "custom/vpn",
     "bluetooth",
     "network",
     "pulseaudio",
     "cpu",
-    "battery"
+    "battery",
+    "custom/vpn"
   ],
   "hyprland/workspaces": {
     "on-click": "activate",
@@ -49,7 +50,8 @@
   "clock": {
     "format": "{:%A %H:%M}",
     "format-alt": "{:%d %B W%V %Y}",
-    "tooltip": false
+    "tooltip": false,
+    "on-click-right": "~/.local/share/omarchy/bin/omarchy-cmd-tzupdate"
   },
   "network": {
     "format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
@@ -91,23 +93,29 @@
     "format-disabled": "󰂲",
     "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "GTK_THEME=Adwaita-dark blueberry"
+    "on-click": "blueberry"
   },
   "pulseaudio": {
-    "format": "",
-    "format-muted": "󰝟",
-    "scroll-step": 5,
-    "on-click": "GTK_THEME=Adwaita-dark pavucontrol",
-    "tooltip-format": "Playing at {volume}%",
+    "format": "{icon}",
+    "on-click": "alacritty --class=Wiremix -e wiremix",
     "on-click-right": "pamixer -t",
-    "ignored-sinks": ["Easy Effects Sink"]
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": ["", "", ""]
+    }
+  },
+  "tray": {
+    "icon-size": 12,
+    "spacing": 12
   },
   "custom/vpn": {
     "interval": 5,
     "format": "{icon}",
     "format-icons": {
-      "connected": "",
-      "disconnected": ""
+      "connected": "<U+F023>",
+      "disconnected": "<U+F2FC>"
     },
     "return-type": "json",
     "exec": "waybar-mullvad status",
